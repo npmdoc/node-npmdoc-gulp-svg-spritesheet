@@ -1,0 +1,256 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a href="https://github.com/iamdarrenhall/gulp-svg-spritesheet">gulp-svg-spritesheet (v0.0.4)</a>
+</h1>
+<h4>Gulp SVG sprite sheet generator</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-svg-spritesheet">module gulp-svg-spritesheet</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-svg-spritesheet.gulp-svg-spritesheet">
+            function <span class="apidocSignatureSpan"></span>gulp-svg-spritesheet
+            <span class="apidocSignatureSpan">(options)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-svg-spritesheet.toString">
+            function <span class="apidocSignatureSpan">gulp-svg-spritesheet.</span>toString
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-svg-spritesheet" id="apidoc.module.gulp-svg-spritesheet">module gulp-svg-spritesheet</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-svg-spritesheet.gulp-svg-spritesheet" id="apidoc.element.gulp-svg-spritesheet.gulp-svg-spritesheet">
+        function <span class="apidocSignatureSpan"></span>gulp-svg-spritesheet
+        <span class="apidocSignatureSpan">(options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">gulp-svg-spritesheet = function (options) {
+
+    options = options || {};
+
+    // Extend our defaults with any passed options
+    for (var key in defaults) {
+        options[key] = options[key] || defaults[key];
+    }
+
+    // Create one SVG to rule them all, our sprite sheet
+    var $ = cheerio.load('&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org
+/Graphics/SVG/1.1/DTD/svg11.dtd"&gt;&lt;svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"/&gt;', { xmlMode
+: true }),
+        $sprite = $('svg'),
+        // This data will be passed to our template
+        data = {
+            cssPathSvg: options.cssPathSvg,
+            height: 0,
+            sprites: [],
+            units: options.units,
+            width: 0
+        },
+        eventEmitter = new events.EventEmitter(),
+        self,
+        x = options.x,
+        y = options.y;
+
+    // When a template file is loaded, render it
+    eventEmitter.on("loadedTemplate", renderTemplate);
+
+    // Generate relative em/rem untis from pixels
+    function pxToRelative(value) {
+        return value / options.pixelBase;
+    }
+
+    // Load a template file and then render it
+    function loadTemplate(src, dest) {
+        fs.readFile(src, function(err, contents) {
+            if(err) {
+                new gutil.PluginError(PLUGIN_NAME, err);
+            }
+
+            var file = {
+                contents: contents.toString(),
+                data: data,
+                dest: dest
+            };
+
+            eventEmitter.emit("loadedTemplate", file);
+        });
+    }
+
+    // Position sprites using Jake Gordon's bin packing algorithm
+    // https://github.com/jakesgordon/bin-packing
+    function packSprites(cb) {
+        var packer = new GrowingPacker();
+
+        // Get coordinates of sprites
+        packer.fit(data.sprites);
+
+        // For each sprite
+        for (var i in data.sprites) {
+            var sprite = data.sprites[i],
+                // Create, initialise and populate an SVG
+                $svg = $('&lt;svg/&gt;')
+                    .attr({
+                        'height': sprite.h,
+                        'viewBox': sprite.viewBox,
+                        'width': sprite.w,
+                        'x': Math.ceil(sprite.fit.x)+options.padding,
+                        'y': Math.ceil(sprite.fit.y)+options.padding
+                    })
+                    .append(sprite.file);
+
+            // Check and set parent SVG width
+            if(sprite.fit.x+sprite.w+options.padding&gt;data.width) {
+                data.width = Math.ceil(sprite.fit.x+sprite.w+options.padding);
+            }
+
+            // Check and set sprite sheet height
+            if(sprite.fit.y+sprite.h+options.padding&gt;data.height) {
+                data.height = Math.ceil(sprite.fit.y+sprite.h+options.padding);
+            }
+
+            // Round up coordinates and add padding
+            sprite.h = Math.ceil(sprite.h);
+            sprite.w = Math.ceil(sprite.w);
+            sprite.x = -Math.abs(Math.ceil(sprite.fit.x))-options.padding;
+            sprite.y = -Math.abs(Math.ceil(sprite.fit.y))-options.padding;
+
+            // Convert to relative units if required
+            if(options.units!=='px') {
+                sprite.h = pxToRelative(sprite.h);
+                sprite.w = pxToRelative(sprite.w);
+                sprite.x = pxToRelative(sprite.x);
+                sprite.y = pxToRelative(sprite.y);
+            }
+
+            // Add the SVG to the sprite sheet
+            $sprite.append($svg);
+
+        }
+
+        // Save the sprite sheet
+        saveSpriteSheet(cb);
+    }
+
+    function positionSprites(cb) {
+        // For each sprite
+        for (var i in data.sprites) {
+
+            var sprite = data.sprites[i];
+
+            // Add padding
+            sprite.x = x+options.padding;
+            sprite.y = y+options.padding;
+
+            // Create, initialise and populate an SVG
+            var $svg = $('&lt;svg/&gt;')
+                    .attr({
+                        'height': sprite.h,
+                        'viewBox': sprite.viewBox,
+                        'width': s ...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-svg-spritesheet.toString" id="apidoc.element.gulp-svg-spritesheet.toString">
+        function <span class="apidocSignatureSpan">gulp-svg-spritesheet.</span>toString
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">toString = function () {
+    return text;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+function loadTemplate(src, dest) {
+    fs.readFile(src, function(err, contents) {
+        if(err) {
+            new gutil.PluginError(PLUGIN_NAME, err);
+        }
+
+        var file = {
+            contents: contents.<span class="apidocCodeKeywordSpan">toString</span>(),
+            data: data,
+            dest: dest
+        };
+
+        eventEmitter.emit("loadedTemplate", file);
+    });
+}
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
