@@ -70,15 +70,6 @@
 
         </li>
 
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.gulp-svg-spritesheet.toString">
-            function <span class="apidocSignatureSpan">gulp-svg-spritesheet.</span>toString
-            <span class="apidocSignatureSpan">()</span>
-            </a>
-
-        </li>
-
     </ol></li>
 
 </ol></div>
@@ -218,37 +209,6 @@
                         &#x27;viewBox&#x27;: sprite.viewBox,
                         &#x27;width&#x27;: s ...</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
-    </ul>
-
-
-
-    <h2>
-        <a href="#apidoc.element.gulp-svg-spritesheet.toString" id="apidoc.element.gulp-svg-spritesheet.toString">
-        function <span class="apidocSignatureSpan">gulp-svg-spritesheet.</span>toString
-        <span class="apidocSignatureSpan">()</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">toString = function () {
-    return text;
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-function loadTemplate(src, dest) {
-    fs.readFile(src, function(err, contents) {
-        if(err) {
-            new gutil.PluginError(PLUGIN_NAME, err);
-        }
-
-        var file = {
-            contents: contents.<span class="apidocCodeKeywordSpan">toString</span>(),
-            data: data,
-            dest: dest
-        };
-
-        eventEmitter.emit(&#x22;loadedTemplate&#x22;, file);
-    });
-}
-...</pre></li>
     </ul>
 
 
