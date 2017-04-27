@@ -1,6 +1,6 @@
 # npmdoc-gulp-svg-spritesheet
 
-#### api documentation for  [gulp-svg-spritesheet (v0.0.4)](https://github.com/iamdarrenhall/gulp-svg-spritesheet)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-svg-spritesheet.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-svg-spritesheet) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-svg-spritesheet.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-svg-spritesheet)
+#### basic api documentation for  [gulp-svg-spritesheet (v0.0.4)](https://github.com/iamdarrenhall/gulp-svg-spritesheet)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-svg-spritesheet.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-svg-spritesheet) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-svg-spritesheet.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-svg-spritesheet)
 
 #### Gulp SVG sprite sheet generator
 
@@ -21,31 +21,11 @@
 ```json
 
 {
-    "name": "gulp-svg-spritesheet",
-    "description": "Gulp SVG sprite sheet generator",
-    "version": "0.0.4",
-    "author": "Darren Hall <hello@darrenhall.info>",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/iamdarrenhall/gulp-svg-spritesheet.git"
+    "author": {
+        "name": "Darren Hall"
     },
-    "homepage": "https://github.com/iamdarrenhall/gulp-svg-spritesheet",
     "bugs": {
         "url": "https://github.com/iamdarrenhall/gulp-svg-spritesheet/issues"
-    },
-    "keywords": [
-        "gulpplugin",
-        "sprite",
-        "svg"
-    ],
-    "engines": {
-        "node": ">=0.10.28"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.9",
-        "gulp-jshint": "^1.9.0",
-        "gulp-svgmin": "^0.4.7"
     },
     "dependencies": {
         "cheerio": "^0.17.0",
@@ -53,7 +33,43 @@
         "mkdirp": "latest",
         "mustache": "^0.8.2",
         "through2": "^0.6.3"
-    }
+    },
+    "description": "Gulp SVG sprite sheet generator",
+    "devDependencies": {
+        "gulp": "^3.8.9",
+        "gulp-jshint": "^1.9.0",
+        "gulp-svgmin": "^0.4.7"
+    },
+    "directories": {},
+    "dist": {
+        "shasum": "94a928954fead9f7ca1f5e8610043f422d98dc37",
+        "tarball": "https://registry.npmjs.org/gulp-svg-spritesheet/-/gulp-svg-spritesheet-0.0.4.tgz"
+    },
+    "engines": {
+        "node": ">=0.10.28"
+    },
+    "gitHead": "645f53a156dc96e2c28ebabc7fa57a9d43d65f31",
+    "homepage": "https://github.com/iamdarrenhall/gulp-svg-spritesheet",
+    "keywords": [
+        "gulpplugin",
+        "sprite",
+        "svg"
+    ],
+    "license": "MIT",
+    "maintainers": [
+        {
+            "name": "iamdarrenhall"
+        }
+    ],
+    "name": "gulp-svg-spritesheet",
+    "optionalDependencies": {},
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/iamdarrenhall/gulp-svg-spritesheet.git"
+    },
+    "scripts": {},
+    "version": "0.0.4",
+    "bin": {}
 }
 ```
 
